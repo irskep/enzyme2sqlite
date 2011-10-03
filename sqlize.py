@@ -46,9 +46,9 @@ def sqlize(data, out):
     conn = sqlite3.connect(out)
     c = conn.cursor()
     c.execute('''create table enzymes
-              (id text, name text, alt_name text, catalytic_activity text,
-              cofactors text, comments text, prosite_ref text, db_ref text)
-              ''')
+              ({ID} text, {NAMES} text, {ALT_NAMES} text, {CATALYTIC_ACTIVITY} text,
+              {COFACTORS} text, COMMENTS text, {PROSITE_REFS} text, {DB_REFS} text)
+              '''.format(**globals()))
 
     for enzyme_dict in data.values():
         c.execute('''insert into enzymes values (?,?,?,?,?,?,?,?)''',
