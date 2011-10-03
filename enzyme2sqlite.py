@@ -52,13 +52,16 @@ def interpret_line(enzyme, line_code, line_contents):
 
 
 def parse(f):
-    """P
-    Characters    Content
-    ---------     ----------------------------------------------------------
-    1 to 2        Two-character line code. Indicates the type of information
-                  contained in the line.
-    3 to 5        Blank
-    6 up to 78    Data
+    """f should be an iterable of strings.
+
+    Format from ftp://ftp.expasy.org/databases/enzyme/enzuser.txt::
+
+        Characters    Content
+        ---------     ----------------------------------------------------------
+        1 to 2        Two-character line code. Indicates the type of information
+                      contained in the line.
+        3 to 5        Blank
+        6 up to 78    Data
     """
     all_enzymes = OrderedDict()
 
