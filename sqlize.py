@@ -7,8 +7,8 @@ from parse import (ID, NAMES, ALT_NAMES, CATALYTIC_ACTIVITY, COFACTORS,
 
 
 EnzymeRow = namedtuple('EnzymeRow',
-                       ['id', 'name', 'alt_name', 'catalytic_activity',
-                       'cofactors', 'comments', 'prosite_ref', 'db_ref'])
+                       [ID, NAMES, ALT_NAMES, CATALYTIC_ACTIVITY, COFACTORS,
+                        COMMENTS, PROSITE_REFS, DB_REFS])
 
 
 bang_join = lambda l: '-!-'.join(l)
