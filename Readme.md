@@ -18,13 +18,13 @@ The `parse()` function returns a dictionary in this format:
 
     {
         'id': str,
-        'name': [str],
-        'alt_name': [str],
+        'names': [str],
+        'alt_names': [str],
         'catalytic_activity': [str],
         'cofactors': [str],
         'comments': [str],
-        'prosite_ref': [str],
-        'db_ref': [[str, str], [str, str], ...],
+        'prosite_refs': [str],
+        'db_refs': [[str, str], [str, str], ...],
     }
 
 The name mappings should be obvious, but you can reference `parse.ABBREV_NAMES`
@@ -40,13 +40,13 @@ that is a safe delimiter for their data. So `['A', 'B']` becomes `A-!-B`.
     table enzymes
 
     id:                     unchanged string
-    name:                   strings separated by '-!-'
-    alt_name:               strings separated by '-!-'
+    names:                  strings separated by '-!-'
+    alt_names:              strings separated by '-!-'
     catalytic_activity:     strings separated by '-!-'
     cofactors:              strings separated by '-!-'
     comments:               strings separated by '-!-'
-    prosite_ref:            strings separated by ';'
-    db_ref:                 string pairs like 'a,b;c,d;e,f'
+    prosite_refs:           strings separated by ';'
+    db_refs                 string pairs like 'a,b;c,d;e,f'
 
 Example
 -------

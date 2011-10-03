@@ -46,10 +46,10 @@ def test_parse_semicolon():
                 ['Q5RBP7', 'ADH1A_PONAB']])
 
 test_item_1_1_1_2 = {
-    'catalytic_activity': ['An alcohol + NADP(+) = an aldehyde + NADPH.'],
-    'name': ['Alcohol dehydrogenase (NADP(+)).'],
-    'prosite_ref': ['PDOC00061'],
-    'db_ref': [['Q6AZW2', 'A1A1A_DANRE'],
+    CATALYTIC_ACTIVITY: ['An alcohol + NADP(+) = an aldehyde + NADPH.'],
+    NAMES: ['Alcohol dehydrogenase (NADP(+)).'],
+    PROSITE_REFS: ['PDOC00061'],
+    DB_REFS: [['Q6AZW2', 'A1A1A_DANRE'],
                ['Q568L5', 'A1A1B_DANRE'],
                ['P35630', 'ADH1_ENTHI'],
                ['Q24857', 'ADH3_ENTHI'],
@@ -75,13 +75,13 @@ test_item_1_1_1_2 = {
                ['Q28FD1', 'AK1A1_XENTR'],
                ['Q9UUN9', 'ALD2_SPOSA'],
                ['P27800', 'ALDX_SPOSA']],
-    'cofactors': ['Zinc.'],
-    'id': '1.1.1.2',
-    'comments': [
+    COFACTORS: ['Zinc.'],
+    ID: '1.1.1.2',
+    COMMENTS: [
         'Some members of this group oxidize only primary alcohols; others act also on secondary alcohols.',
         'May be identical with EC 1.1.1.19, EC 1.1.1.33 and EC 1.1.1.55.',
         'A-specific with respect to NADPH.'],
-    'alt_name': ['Aldehyde reductase (NADPH).']
+    ALT_NAMES: ['Aldehyde reductase (NADPH).']
 }
 
 def test_all_parsing():

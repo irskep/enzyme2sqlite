@@ -5,29 +5,38 @@ from collections import OrderedDict
 
 from parse_funcs import PARSE_FUNCS
 
+ID = 'id'
+NAMES = 'names'
+ALT_NAMES = 'alt_names'
+CATALYTIC_ACTIVITY = 'catalytic_activity'
+COFACTORS = 'cofactors'
+COMMENTS = 'comments'
+PROSITE_REFS = 'prosite_refs'
+DB_REFS = 'db_refs'
+
 
 ABBREV_NAMES = {
-    'ID': 'id',
-    'DE': 'name',
-    'AN': 'alt_name',
-    'CA': 'catalytic_activity',
-    'CF': 'cofactors',
-    'CC': 'comments',
-    'PR': 'prosite_ref',
-    'DR': 'db_ref',
+    'ID': ID,
+    'DE': NAMES,
+    'AN': ALT_NAMES,
+    'CA': CATALYTIC_ACTIVITY,
+    'CF': COFACTORS,
+    'CC': COMMENTS,
+    'PR': PROSITE_REFS,
+    'DR': DB_REFS,
 }
 
 
 def enzyme_stub():
     return {
-        'id': None,
-        'name': [],
-        'alt_name': [],
-        'catalytic_activity': [],
-        'cofactors': [],
-        'comments': [],
-        'prosite_ref': [],
-        'db_ref': [],
+        ID: None,
+        NAMES: [],
+        ALT_NAMES: [],
+        CATALYTIC_ACTIVITY: [],
+        COFACTORS: [],
+        COMMENTS: [],
+        PROSITE_REFS: [],
+        DB_REFS: [],
     }
 
 
