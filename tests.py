@@ -2,6 +2,8 @@ from collections import OrderedDict
 
 from enzyme2sqlite import *
 from parse import *
+from parse_funcs import *
+from sqlize import *
 
 # you need this file to run the tests, and probably to run the script as well.
 # I got it from here: ftp://ftp.expasy.org/databases/enzyme

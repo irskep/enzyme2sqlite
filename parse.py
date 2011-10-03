@@ -1,70 +1,66 @@
-import re
+#!/usr/bin/python3
+
+import argparse
+from collections import OrderedDict
+
+from parse_funcs import PARSE_FUNCS
 
 
-TRANSFER_RE = re.compile(r'\s+Transferred entry: (?P<entry>.+?)\.$')
+ABBREV_NAMES = {
+    'ID': 'id',
+    'DE': 'name',
+    'AN': 'alt_name',
+    'CA': 'catalytic_activity',
+    'CF': 'cofactors',
+    'CC': 'comments',
+    'PR': 'prosite_ref',
+    'DR': 'db_ref',
+}
 
 
-def parse_string(old, new):
-    # old should probably be None
-    #
-    # these should be unique, so ignore the old values
-
-    return new.strip() if new else None
-
-
-def parse_period_concat(old, new):
-    # old is a list of strings, new is a string
-    #
-    # if a line does not end with a period, it sould be concatenated with the
-    # next line. Otherwise, keep the list intact.
-    #
-    # e.g.
-    # CA   Peptidylglycine + ascorbate + O(2) = peptidyl(2-hydroxyglycine) +
-    # CA   dehydroascorbate + H(2)O.
-
-    processed_lines = old
-    line = new.strip()
-    if processed_lines and not processed_lines[-1].endswith('.'):
-        processed_lines[-1] = '{0} {1}'.format(processed_lines[-1], line)
-    else:
-        processed_lines.append(line)
-    return processed_lines
+def enzyme_stub():
+    return {
+        'id': None,
+        'name': [],
+        'alt_name': [],
+        'catalytic_activity': [],
+        'cofactors': [],
+        'comments': [],
+        'prosite_ref': [],
+        'db_ref': [],
+    }
 
 
-def parse_bang_concat(old, new):
-    # old is a list of strings, new is a string
-    # if a line does not begin with '-!-', it should be concatenated with the
-    # previous line. Otherwise, keep the list intact.
-    #
-    # e.g.
-    # CC   -!- Peptidylglycines with a neutral amino acid residue in the penultimate
-    # CC       position are the best substrates for the enzyme.
-
-    processed_lines = old
-    line = new.strip()
-    if not line.startswith('-!-') and processed_lines:
-        processed_lines[-1] = '{0} {1}'.format(processed_lines[-1], line)
-    else:
-        if line.startswith('-!- '):
-            line = line[4:]
-        processed_lines.append(line)
-    return processed_lines
+def interpret_line(enzyme, line_code, line_contents):
+    key = ABBREV_NAMES[line_code]
+    enzyme[key] = PARSE_FUNCS[line_code](enzyme[key], line_contents)
 
 
-def parse_prosite(old, new):
-    # old is a list of strings, new is a string
-    old.append(new.split(';')[1].strip())
-    return old
+def parse(f):
+    """f should be an iterable of strings.
 
+    Format from ftp://ftp.expasy.org/databases/enzyme/enzuser.txt::
 
-def parse_semicolon(old, new):
-    # old is a list of strings, new is a string
-    #
-    # e.g.
-    # DR   P10480, GCAT_AERHY ;  P53760, LCAT_CHICK ;  O35573, LCAT_ELIQU ;
+        Characters    Content
+        ---------     ----------------------------------------------------------
+        1 to 2        Two-character line code. Indicates the type of information
+                      contained in the line.
+        3 to 5        Blank
+        6 up to 78    Data
+    """
+    all_enzymes = OrderedDict()
 
-    for item in new.split(';'):
-        pair = [x.strip() for x in item.split(',') if x.strip()]
-        if pair:
-            old.append(pair)
-    return old
+    # current_enzyme is a dict and never None.
+    current_enzyme = enzyme_stub()
+
+    for line in f:
+        line_code = line[0:2]
+
+        if line_code == '//':
+            if current_enzyme and current_enzyme['id']:
+                all_enzymes[current_enzyme['id']] = current_enzyme
+            current_enzyme = enzyme_stub()
+        else:
+            interpret_line(current_enzyme, line_code, line[5:])
+
+    return all_enzymes
