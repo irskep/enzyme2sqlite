@@ -91,6 +91,13 @@ def test_all_parsing():
 
 def test_sqlize():
     with open(DAT_FILE, 'r') as f:
+        conn = sqlize(OrderedDict([('1.1.1.2', test_item_1_1_1_2)]), ':memory:')
+        c = conn.cursor()
+        for row in c.execute('select * from enzymes where id=?', ('1.1.1.2',)):
+            assert desqlize_row(row) == test_item_1_1_1_2
+
+def test_end_to_end():
+    with open(DAT_FILE, 'r') as f:
         data = parse(f)
         conn = sqlize(data, ':memory:')
         c = conn.cursor()

@@ -47,7 +47,8 @@ that is a safe delimiter for their data. So `['A', 'B']` becomes `A-!-B`.
 Example
 -------
 
-This is straight from the tests:
+This is straight from the tests, where `test_item_1_1_1_2` is alcohol
+dehydrogenase (NADP(+)) parsed from `enzyme.dat`:
 
     from parse import parse
     from sqlize import sqlize, desqlize_row
