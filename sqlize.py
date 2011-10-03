@@ -10,15 +10,16 @@ EnzymeRow = namedtuple('EnzymeRow',
 
 identity = lambda x: x
 string_join = lambda l: '-!-'.join(l)
+db_ref_join = lambda r: ';'.join(','.join(x for x in item) for item in r)
 CONVERT_FUNCS = {
-    'ID': identity,
-    'DE': string_join,
-    'AN': string_join,
-    'CA': string_join,
-    'CF': string_join,
-    'CC': string_join,
-    'PR': string_join,
-    'DR': string_join,
+    'id':                   identity,
+    'name':                 string_join,
+    'alt_name':             string_join,
+    'catalytic_activity':   string_join,
+    'cofactors':            string_join,
+    'comments':             string_join,
+    'prosite_ref':          string_join,
+    'db_ref':               db_ref_join,
 }
 
 
@@ -34,7 +35,9 @@ def sqlize(data, out):
               ''')
 
     for enzyme_dict in data.values():
-        c.execute('''insert into enzymes values (?,?,?,?,?,?,?,?)''', EnzymeRow(**enzyme_dict))
+        c.execute('''insert into enzymes values (?,?,?,?,?,?,?,?)''',
+                  EnzymeRow(**{k: CONVERT_FUNCS[k](v)
+                               for k, v in enzyme_dict.items()}))
 
     conn.commit()
     c.close()
