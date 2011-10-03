@@ -4,6 +4,10 @@ enzyme2sqlite
 This script parses the ENZYME enzyme nomenclature database from the flat file
 format to a SQLite database (in my case, to use in an iPad app).
 
+Example usage:
+
+    python3 enzyme2sqlite.py enzyme.dat -o enzyme.sqlite
+
 For more information, see the
 [ENZYME project home page](http://enzyme.expasy.org/).
 
